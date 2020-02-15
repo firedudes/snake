@@ -7,38 +7,50 @@ from tkinter import messagebox
 class cube(object):
   rows = 20
   w = 500
-  def _init_(self,start,dirnx=1,dirny=0,color=(0, 255, 50 )):
+  def __init__(self,start,dirnx=1,dirny=0,color=(0, 255, 50 )):
     self.pos = start
     self.dirnx = 1
     self.dirny = 0 
     self.color = color 
+
   def move(self, dirnx, dirny):
     self.dirnx = dirnx
     self.dirny = dirny
-    self.pos(self.pos[0] + self.dirnx, self.pos[1] + self.dirny)
+    self.pos = (self.pos[0] + self.dirnx, self.pos[1] + self.dirny)
+
   def draw(self, surface, eyes=False):
     dis = self.w // self.rows
     i = self.pos[0]
     j =  self.pos[1]
-    pygame.draw.rect(surface, self.color (i*dis+1,j*dis+1, dis-2, dis-2))
+
+    pygame.draw.rect(surface, self.color, (i*dis+1,j*dis+1, dis-2, dis-2))
+    if eyes:
+        centre = dis//2
+        radius = 3
+        circleMiddle = (i*dis+centre-radius,j*dis+8)
+        circleMiddle2 = (i*dis + dis -radius*2, j*dis+8)
+        pygame.draw.circle(surface, (0,0,0), circleMiddle, radius)
+        pygame.draw.circle(surface, (0,0,0), circleMiddle2, radius)
+
 class snake(object):
   body = []
   turns = {}
 
-  def _init_(self, color, pos):
+  def __init__(self, color, pos):
     self.color = color
     self.head = cube(pos)
-    self.apped.append(self.head)
+    self.body.append(self.head)
     self = dirnx = 0
     self = dirny = 1
+
   def move (self):
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         pygame.quit()
 
-    keys = pygame.key.get.pressed()
+    keys = pygame.key.get_pressed()
 
-    for keys in keys:
+    for key in keys:
         if keys[pygame.K_LEFT]:
             self.dirnx = -1
             self.dirny = 0
@@ -96,6 +108,8 @@ def drawGrid(w, rows, surface):
 def redrawWindow(surface):
   global rows, width
   surface.fill((44, 88, 78 ))
+  s.draw(surface)
+
   drawGrid(width, rows, surface)
   pygame.display.update()
 
@@ -106,18 +120,18 @@ def messagebox(subject, content):
   pass
 
 def main():
-  global width, rows
+  global width, rows, s
   width = 500
   rows = 20
   win = pygame.display.set_mode((width, width))
- # s = snake((44, 69, 88 ), (10,10))
-  #s = snake((255,0,0),(10,10))
+  s = snake((255,0,0), (10,10))
   flag = True
 
   clock = pygame.time.Clock()
   while flag:
     pygame.time.delay(50)
     clock.tick(10)
+    s.move()
     redrawWindow(win)
   pass 
 

@@ -1,4 +1,3 @@
-'''
 
 #Snake Tutorial Python
  
@@ -24,6 +23,7 @@ class cube(object):
         self.pos = (self.pos[0] + self.dirnx, self.pos[1] + self.dirny)
  
     def draw(self, surface, eyes=False):
+        print("DRAW THING")
         dis = self.w // self.rows
         i = self.pos[0]
         j = self.pos[1]
@@ -36,9 +36,6 @@ class cube(object):
             circleMiddle2 = (i*dis + dis -radius*2, j*dis+8)
             pygame.draw.circle(surface, (0,0,0), circleMiddle, radius)
             pygame.draw.circle(surface, (0,0,0), circleMiddle2, radius)
-       
- 
- 
  
 class snake(object):
     body = []
@@ -208,7 +205,6 @@ def main():
     pass
  
  
- 
+
 main()
 
-'''
